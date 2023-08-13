@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI vs Human Image Analysis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, #f3f4f6, #d1d4d8);
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #container {
+      padding: 30px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 500px;
+    }
+
+    #results {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 30px;
+      background-color: #007BFF;
+      text-align: center;
+      line-height: 30px;
+      color: white;
+      border-radius: 5px;
+      transition: width 0.3s ease;
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #333;
+    }
+
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #uploadedImageContainer {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
+
+    #uploadedImage {
+      max-width: 100%;
+      max-height: 100%;
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center the image */
+    }
+  </style>
+</head>
+
+<body>
+    <div id="container">
+      <h2>Upload Image for Analysis</h2>
+      <form id="analysisForm">
+        <input type="file" id="fileInput" accept=".png, .jpg, .jpeg">
+        <input type="url" id="urlInput" placeholder="or enter image URL">
+        <button type="button" onclick="analyzeImage()">Analyze Image</button>
+      </form>
+
+      <div id="uploadedImageContainer">
+        <img id="uploadedImage" src="" alt="Uploaded Image">
+      </div>
+
+      <div id="results">
+        <h3>Analysis Results:</h3>
+        <div>Human: <div class="progress-bar" id="humanBar"></div></div>
+        <div>AI: <div class="progress-bar" id="aiBar"></div></div>
+      </div>
+    </div>
+
+    <script>
+      function analyzeImage() {
+        document.getElementById('uploadedImageContainer').style.display = 'block';
+        document.getElementById('uploadedImage').src = "./static/loading-buffering.gif"
+        document.getElementById('uploadedImage').style.display = 'block';
+
+
+        let fileInput = document.getElementById('fileInput');
+        let urlInput = document.getElementById('urlInput');
+
+        let formData = new FormData();
+        
+        if (fileInput.files.length > 0) {
+            let imageUrl = URL.createObjectURL(fileInput.files[0]);
+            displayImage(imageUrl); // Display the uploaded image immediately
+            formData.append('file', fileInput.files[0]);
+        } else if (urlInput.value !== '') {
+            formData.append('url', urlInput.value);
+        } else {
+            alert('Please provide an image or URL to analyze.');
+            document.getElementById('uploadedImageContainer').style.display = 'none';
+            document.getElementById('uploadedImage').src = ""
+            document.getElementById('uploadedImage').style.display = 'none';
+            return;
+        }
+
+        fetch('/analyze', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(err => { throw err; });
+          }
+            return response.json();
+        })
+        .then(data => {
+            if (data.image) {
+                let image = document.getElementById('uploadedImage');
+                image.src = data.image;
+            }
+
+            document.getElementById('results').style.display = 'block';
+
+            document.getElementById('humanBar').style.width = `${data.human * 100}%`;
+            document.getElementById('humanBar').textContent = `${(data.human * 100).toFixed(2)}%`;
+
+            document.getElementById('aiBar').style.width = `${data.ai * 100}%`;
+            document.getElementById('aiBar').textContent = `${(data.ai * 100).toFixed(2)}%`;
+
+            // Clear variables/reset form fields after submission
+            fileInput.value = ''; 
+            urlInput.value = '';
+        }).catch(error => {
+          // Display the error to the user, e.g., with an alert
+          alert(error.error);
+          document.getElementById('uploadedImageContainer').style.display = 'none';
+        });
+    }
+
+    function displayImage(src) {
+        let imageContainer = document.getElementById('uploadedImageContainer');
+        let image = document.getElementById('uploadedImage');
+        image.src = src;
+        imageContainer.style.display = 'block'; // Display the container
+        image.style.display = 'block'; // Display the image
+    }
+  </script>
+</body>
+</html>
