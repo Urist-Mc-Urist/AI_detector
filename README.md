@@ -1,7 +1,10 @@
 # Human vs AI Art Classifier
 The increasing quality of AI-generated art has made it difficult to distinguish from human-created works. Many existing "AI detector" models fall short, mistakenly categorizing high-quality AI art as human-made or associating poorly-drawn images with AI. This project was inspired by the realization that these models were potentially oversimplifying their classification criteria.
+
 High-quality AI art is frequently posted in stable diffusion threads on 4chan. The hypothesis driving this classifier was that by using such top-tier AI-generated images for training, the model could learn to recognize subtle generative artifacts rather than just obvious defects.
+
 However, there are challenges. The model's current training set for human images could benefit from more diversity, such as including classical paintings, abstract art, 3D renders, and various other art forms. Furthermore, the model tends to label unique or abstract images as AI-generated, which may indicate some bias. One significant limitation is the visual transformer architecture's 384x384 resolution cap, leading to the potential loss of critical visual details during compression.
+
 The goal of this project was to test that hypothesis and provide a handy tool to quickly test if a suspicious image is likely AI generated. Remember that the best image classification model in the world is currently between your ears, and to take any outputs from the classifier with a grain of salt. 
 ## Project Overview:
 ### Dataset:
