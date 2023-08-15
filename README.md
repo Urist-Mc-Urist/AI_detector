@@ -32,6 +32,7 @@ Additional training data was added to the dataset after epoch 10 so direct compa
 ### Web App:
 <p align="center"> <img width="500" src="https://github.com/Urist-Mc-Urist/AI_detector/assets/80123386/1a3d869c-208a-45cb-83f4-9a703803981f"></p>
 An interactive application where users can either upload an image or provide a URL to classify the image as human-generated or AI-generated.
+
 **Features**:
 - Local image file upload and URL-based image analysis.
 - Result visualization showing the likelihood of each class.
