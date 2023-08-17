@@ -31,7 +31,9 @@ Built around a pretrained transformer model enhanced with custom layers for clas
 - **F1 Score**: 0.8694
 - **AI Detection Accuracy**: 88.00%
 - **False Positive Rate**: 15.02%
+
 Additional training data was added to the dataset after epoch 10 so direct comparison to epochs 1-10 isn't necessarily accurate. With additional training after epoch 15, the model was able to achieve a higher AI detection accuracy, but at the expense of a significantly higher false positive rate. A more in-depth training set-up and more training may be able to achieve better results.
+
 ### Web App:
 <p align="center"> <img width="500" src="https://github.com/Urist-Mc-Urist/AI_detector/assets/80123386/1a3d869c-208a-45cb-83f4-9a703803981f"></p>
 An interactive application where users can either upload an image or provide a URL to classify the image as human-generated or AI-generated.
