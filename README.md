@@ -24,13 +24,15 @@ The dataset consists of both human-generated and AI-generated images. Here's whe
 
 ![spreadsheet](https://github.com/Urist-Mc-Urist/AI_detector/assets/80123386/681d6baf-2e5e-4d84-80be-1ed01fce3603)
 
-Built around a pretrained transformer model enhanced with custom layers for classification. It underwent various training epochs with the best checkpoint at epoch 15 showing:
-Built around a pretrained transformer model enhanced with custom layers for classification. It underwent 17 total training epochs with the best checkpoint at epoch 15 showing:
+Built around a pretrained transformer model enhanced with custom layers for classification. The model was trained for 17 epochs with the best checkpoint at epoch 15 showing:
+
 - **Accuracy**: 0.8712
 - **Recall**: 0.8690
 - **F1 Score**: 0.8694
 - **AI Detection Accuracy**: 88.00%
 - **False Positive Rate**: 15.02%
+
+"Definite", "Probable", and "Possible" are defined as confidence levels of >99%, >85%, and >50% respectively. The confidence levels of false positives are included as well, with only 5.01% of human generated images being mis-classified as "Definite" (0.1%) or "Probable" (4.91%).
 
 Additional training data was added to the dataset after epoch 10 so direct comparison to epochs 1-10 isn't necessarily accurate. With additional training after epoch 15, the model was able to achieve a higher AI detection accuracy, but at the expense of a significantly higher false positive rate. A more in-depth training set-up and more training may be able to achieve better results.
 
